@@ -1,0 +1,5 @@
+#!/bin/bash
+
+HOST="your_host"
+MYSQL_PASSWD="your_mysql_password"
+USER="your_user_system"
