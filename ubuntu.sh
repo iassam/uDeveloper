@@ -124,14 +124,6 @@ LAMP(){
     echo "LAMP installed."
 }
 
-LAPP(){
-
-    apt-get install -y postgresql
-    echo "CREATE ROLE $1 LOGIN ENCRYPTED PASSWORD '$2';" | sudo -u postgres psql
-    su postgres -c "createdb spider --owner $1"
-    service postgresql reload
-}
-
 appEditores(){
 
     apt-get install sigil gimp calibre -y
