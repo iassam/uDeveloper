@@ -9,14 +9,9 @@ Auto install ubuntu development tools
 - Basic Media programs
 - Install Oracle Java
 
-##The config file
-Set the vars
-
-- USER
-- MYSQL_PASSWD
-- HOST
-
 ##Notes:
 Please run script as ROOT!
 
-run: sh ./start.sh
+sudo chmod +x ubuntu.sh
+
+sudo ./ubuntu.sh
