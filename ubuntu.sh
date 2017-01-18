@@ -163,18 +163,17 @@ android(){
 
     apt-get install ant adb -y
 
-    su - $USER_SYS -c
-    "wget -O https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz;
-    tar -xvf android-sdk_r24.4.1-linux.tgz;
-    rm android-sdk_r24.4.1-linux.tgz;
+    su - $USER_SYS -c '
+    wget https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz -O android-sdk.tgz;
+    tar -xvf android-sdk.tgz;
+    rm android-sdk.tgz;
     mv android-sdk-linux ~/android;
     export PATH=${PATH}:~/android/tools;
-    echo 'export PATH=\"$PATH:~/android/tools\"' >> ~/.bashrc;
-    echo \"Android SDK installed.\";
+    echo "export PATH=\"$PATH:~/android/tools\"" >> ~/.bashrc;
+    echo "Android SDK installed.";
+    npm install -g cordova ionic;
 
-    npm install -g cordova ionic
-
-    "
+    '
 }
 
 vimConfig(){
