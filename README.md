@@ -15,6 +15,7 @@ Auto install ubuntu development tools
 ##Notes:
 Please run script as ROOT!
 
+```sh
 sudo chmod +x ubuntu.sh
-
 sudo ./ubuntu.sh
+```
