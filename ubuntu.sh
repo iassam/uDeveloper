@@ -176,6 +176,24 @@ android(){
     '
 }
 
+androidStudio(){
+
+     apt-get install lib32z1 lib32ncurses5 lib32stdc++6 -y
+
+     su - $USER_SYS -c '
+     wget https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz -O android-sdk.tgz;
+     tar -xvf android-sdk.tgz;
+     rm android-sdk.tgz;
+     mv android-sdk-linux ~/android;
+     export PATH=${PATH}:~/android/tools;
+     echo "export PATH=\"$PATH:~/android/tools\"" >> ~/.bashrc;
+     echo "Android Studio installed.";
+ 
+     '
+
+
+}
+
 vimConfig(){
 
     apt-get install vim -y
