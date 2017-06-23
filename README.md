@@ -1,4 +1,6 @@
-#uDeveloperInstaller
+#uDeveloperInstaller v1.2
+
+![alt tag](docs/img/ss.png)
 
 Auto install ubuntu development tools
 
@@ -13,6 +15,7 @@ Auto install ubuntu development tools
 ##Notes:
 Please run script as ROOT!
 
+```sh
 sudo chmod +x ubuntu.sh
-
 sudo ./ubuntu.sh
+```
