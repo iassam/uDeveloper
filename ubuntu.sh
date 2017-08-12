@@ -2,7 +2,7 @@
 #
 #   Author: Iassam
 #
-#   Version: 1.2
+#   Version: 1.3
 
 #------------------[Preload]---------------------
 #System colors
@@ -152,11 +152,12 @@ closeAllBrowsers(){
 
 laravelInstall(){
 
-    su - $USER_SYS -c "
-    composer global require \"laravel/installer\"
-    echo 'export PATH=\"$PATH:~/.config/composer/vendor/bin\"' >> ~/.bashrc
-    echo "Laravel installed.";
-    "
+    su - $USER_SYS -c '
+    composer global require "laravel/installer";
+	export PATH=${PATH}:~/.composer/vendor/bin;
+	echo "export PATH=$PATH" >> ~/.bashrc;
+    echo "Laravel installed."'
+    
 }
 
 android(){
@@ -169,7 +170,7 @@ android(){
     rm android-sdk.tgz;
     mv android-sdk-linux ~/android;
     export PATH=${PATH}:~/android/tools;
-    echo "export PATH=\"$PATH:~/android/tools\"" >> ~/.bashrc;
+    echo $PATH >> ~/.bashrc;
     echo "Android SDK installed.";
     npm install -g cordova ionic;
 
@@ -186,11 +187,10 @@ androidStudio(){
      rm android-sdk.tgz;
      mv android-sdk-linux ~/android;
      export PATH=${PATH}:~/android/tools;
-     echo "export PATH=\"$PATH:~/android/tools\"" >> ~/.bashrc;
+     echo "export PATH=$PATH" >> ~/.bashrc;
      echo "Android Studio installed.";
  
      '
-
 
 }
 
@@ -288,21 +288,33 @@ nodejsLatest(){
     echo "latest nodejs version installed."
 }
 
+nodePath(){
+
+	su - $USER_SYS -c "
+    mkdir ~/.npm-global
+    npm config set prefix '~/.npm-global'
+    export PATH=~/.npm-global/bin:$PATH
+	source ~/.profile
+    "	 
+
+}
+
 allPackages(){
 
     apt-get install composer -y
     updateSystem
     basicDevelop
     oracleJava
-    nodejsInstall
+    nodejsLatest
     aErrors
     aGuest
     LAMP
-    android
     vimConfig
     laravelInstall
     chromeInstall
+    android
     atomInstall
+	nodePath
 
     echo "All packages installed."
 
@@ -321,7 +333,7 @@ menu(){
     clear
 
     echo -e "
-    ${YELLOW}Ubuntu Developer Installer v1.2${NORMAL}
+    ${YELLOW}Ubuntu Developer Installer v1.3${NORMAL}
 
     ${GREEN}1)${NORMAL} Install Basic Programs
     ${GREEN}2) ${NORMAL}Install Oracle java 8
@@ -334,6 +346,7 @@ menu(){
     ${GREEN}9) ${NORMAL}Install LAMP server
     ${GREEN}10) ${NORMAL}Install NodeJS (stable)
     ${GREEN}11) ${NORMAL}Install NodeJS (latest)
+    ${GREEN}96) ${NORMAL}Fix nodeJS
     ${GREEN}97) ${NORMAL}Install Laravel
     ${GREEN}98) ${NORMAL}Install all packages
     ${RED}99) ${NORMAL}Exit
@@ -356,6 +369,7 @@ options(){
         9) setHost; setMysql; LAMP ; sleep 3;;
         10) nodejsInstall; sleep 3;;
         11) nodejsLatest; sleep 3;;
+		96) setUser; nodePath; sleep 3;;
         97) setUser; laravelInstall; sleep 3;;
         98) setUser; setHost; setMysql; allPackages; sleep 3;;
         99) echo "Hasta la vista baby..."; exit;;
