@@ -107,6 +107,8 @@ LAMP(){
 
     a2enmod rewrite
 
+    a2enmod headers
+
     echo -e "\n--- Allow url rewrite ---\n"
     sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/apache2.conf
 
@@ -170,7 +172,7 @@ android(){
     rm android-sdk.tgz;
     mv android-sdk-linux ~/android;
     export PATH=${PATH}:~/android/tools;
-    echo $PATH >> ~/.bashrc;
+    echo "export PATH=$PATH" >> ~/.bashrc;
     echo "Android SDK installed.";
     npm install -g cordova ionic;
 
@@ -291,10 +293,10 @@ nodejsLatest(){
 nodePath(){
 
 	su - $USER_SYS -c "
-    mkdir ~/.npm-global
-    npm config set prefix '~/.npm-global'
-    export PATH=~/.npm-global/bin:$PATH
-	source ~/.profile
+    mkdir ~/.npm-global;
+    npm config set prefix '~/.npm-global';
+    export PATH=~/.npm-global/bin:$PATH;
+	source ~/.profile;
     "	 
 
 }
@@ -314,7 +316,7 @@ allPackages(){
     chromeInstall
     android
     atomInstall
-	nodePath
+    nodePath
 
     echo "All packages installed."
 
