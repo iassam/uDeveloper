@@ -371,7 +371,7 @@ options(){
         9) setHost; setMysql; LAMP ; sleep 3;;
         10) nodejsInstall; sleep 3;;
         11) nodejsLatest; sleep 3;;
-		96) setUser; nodePath; sleep 3;;
+        96) setUser; nodePath; sleep 3;;
         97) setUser; laravelInstall; sleep 3;;
         98) setUser; setHost; setMysql; allPackages; sleep 3;;
         99) echo "Hasta la vista baby..."; exit;;
