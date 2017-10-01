@@ -33,7 +33,7 @@ Notes: Please run script as ROOT!
 
 ## Author
 
-Iassam ([Twitter](http://twitter.com/iassams)/[GitHub](http://github.com/iassams)).
+Iassam ([Twitter](http://twitter.com/iassams)/[GitHub](http://github.com/iassam)).
 
 ### License
 
