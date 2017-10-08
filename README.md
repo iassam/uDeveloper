@@ -1,6 +1,4 @@
-#uDeveloperInstaller v1.3
-
-![alt tag](docs/img/ss.png)
+#uDeveloperInstaller v1.4
 
 Auto install ubuntu development tools
 
