@@ -2,7 +2,7 @@
 #
 #   Author: Iassam
 #
-#   Version: 1.3
+#   Version: 1.4
 
 #------------------[Preload]---------------------
 #System colors
@@ -284,21 +284,10 @@ nodejsInstall(){
 
 nodejsLatest(){
 
-    curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+    curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
     apt-get install nodejs -y
     apt-get autoremove -y
     echo "latest nodejs version installed."
-}
-
-nodePath(){
-
-	su - $USER_SYS -c "
-    mkdir ~/.npm-global;
-    npm config set prefix '~/.npm-global';
-    export PATH=~/.npm-global/bin:$PATH;
-	source ~/.profile;
-    "	 
-
 }
 
 allPackages(){
@@ -316,7 +305,6 @@ allPackages(){
     chromeInstall
     android
     atomInstall
-    nodePath
 
     echo "All packages installed."
 
@@ -348,7 +336,6 @@ menu(){
     ${GREEN}9) ${NORMAL}Install LAMP server
     ${GREEN}10) ${NORMAL}Install NodeJS (stable)
     ${GREEN}11) ${NORMAL}Install NodeJS (latest)
-    ${GREEN}96) ${NORMAL}Fix nodeJS
     ${GREEN}97) ${NORMAL}Install Laravel
     ${GREEN}98) ${NORMAL}Install all packages
     ${RED}99) ${NORMAL}Exit
@@ -371,7 +358,6 @@ options(){
         9) setHost; setMysql; LAMP ; sleep 3;;
         10) nodejsInstall; sleep 3;;
         11) nodejsLatest; sleep 3;;
-        96) setUser; nodePath; sleep 3;;
         97) setUser; laravelInstall; sleep 3;;
         98) setUser; setHost; setMysql; allPackages; sleep 3;;
         99) echo "Hasta la vista baby..."; exit;;
