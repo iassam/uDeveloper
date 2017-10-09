@@ -314,7 +314,7 @@ menu(){
     clear
 
     echo -e "
-    ${YELLOW}Ubuntu Developer Installer v1.3${NORMAL}
+    ${YELLOW}Ubuntu Developer Installer v1.4${NORMAL}
 
     ${GREEN}1)${NORMAL} Install Basic Programs
     ${GREEN}2) ${NORMAL}Install Oracle java 8
