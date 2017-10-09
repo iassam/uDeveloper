@@ -164,19 +164,10 @@ laravelInstall(){
 
 android(){
 
-    apt-get install ant adb -y
-
-    su - $USER_SYS -c '
-    wget https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz -O android-sdk.tgz;
-    tar -xvf android-sdk.tgz;
-    rm android-sdk.tgz;
-    mv android-sdk-linux ~/android;
-    export PATH=${PATH}:~/android/tools;
-    echo "export PATH=$PATH" >> ~/.bashrc;
+    apt-get install ant adb android-sdk -y
     echo "Android SDK installed.";
-    npm install -g cordova ionic;
+    sudo npm install -g cordova ionic
 
-    '
 }
 
 androidStudio(){
