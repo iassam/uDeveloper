@@ -2,7 +2,7 @@
 #
 #   Author: Iassam
 #
-#   Version: 1.4
+#   Version: 1.5
 
 #------------------[Preload]---------------------
 #System colors
@@ -81,7 +81,7 @@ oracleJava(){
 basicDevelop(){
 
     echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
-    apt-get install ubuntu-restricted-extras build-essential vlc ssh curl dkms p7zip rar unrar wget xsane tree ttf-mscorefonts-installer guvcview gparted qbittorrent git -y
+    apt-get install ubuntu-restricted-extras build-essential vlc ssh curl dkms p7zip rar unrar wget xsane tree ttf-mscorefonts-installer guvcview gparted qbittorrent git nodejs python3.6-dev umbrello keepassx -y
     echo "Basic development packages installed."
 }
 
@@ -124,6 +124,17 @@ LAMP(){
     service apache2 restart
 
     echo "LAMP installed."
+}
+
+LEMP(){
+
+	apt install nginx mysql-server php-fpm php-mysql -y
+
+}
+
+pythonDev(){
+
+	apt install python3.6-dev -y
 }
 
 appEditores(){
@@ -267,12 +278,6 @@ chromeInstall(){
     echo "Google Chrome Browser installed.";
 }
 
-nodejsInstall(){
-
-    apt-get install npm nodejs nodejs-legacy -y
-    echo "nodejs installed."
-}
-
 nodejsLatest(){
 
     curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
@@ -314,19 +319,18 @@ menu(){
     clear
 
     echo -e "
-    ${YELLOW}Ubuntu Developer Installer v1.4${NORMAL}
+    ${YELLOW}Ubuntu Developer Installer v1.5${NORMAL}
 
     ${GREEN}1)${NORMAL} Install Basic Programs
     ${GREEN}2) ${NORMAL}Install Oracle java 8
-    ${GREEN}3) ${NORMAL}Install android SDK
     ${GREEN}4) ${NORMAL}Vim + custom config
     ${GREEN}5) ${NORMAL}Disable ubuntu errors
     ${GREEN}6) ${NORMAL}Disable guest user
     ${GREEN}7) ${NORMAL}Install Atom editor
     ${GREEN}8) ${NORMAL}Install Google chrome latest version
     ${GREEN}9) ${NORMAL}Install LAMP server
-    ${GREEN}10) ${NORMAL}Install NodeJS (stable)
     ${GREEN}11) ${NORMAL}Install NodeJS (latest)
+    ${GREEN}12) ${NORMAL}LEMP
     ${GREEN}97) ${NORMAL}Install Laravel
     ${GREEN}98) ${NORMAL}Install all packages
     ${RED}99) ${NORMAL}Exit
@@ -340,15 +344,14 @@ options(){
     case "$1" in
         1) basicDevelop; sleep 3;;
         2) oracleJava; sleep 3;;
-        3) setUser; android; sleep 3;;
         4) setUser; vimConfig; sleep 3;;
         5) aErrors; sleep 3;;
         6) aGuest; sleep 3;;
         7) atomInstall; sleep 3;;
         8) chromeInstall; sleep 3;;
         9) setHost; setMysql; LAMP ; sleep 3;;
-        10) nodejsInstall; sleep 3;;
         11) nodejsLatest; sleep 3;;
+        12) LEMP; sleep 3;;
         97) setUser; laravelInstall; sleep 3;;
         98) setUser; setHost; setMysql; allPackages; sleep 3;;
         99) echo "Hasta la vista baby..."; exit;;
