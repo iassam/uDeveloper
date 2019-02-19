@@ -1,4 +1,4 @@
-#uDeveloperInstaller v1.4
+#uDeveloperInstaller v1.5
 
 Auto install ubuntu development tools
 
