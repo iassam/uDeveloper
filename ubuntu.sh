@@ -65,6 +65,7 @@ updateSystem(){
 
     apt-get update
     apt-get upgrade -y
+    apt-get dist-upgrade -y
 }
 
 oracleJava(){
@@ -79,6 +80,8 @@ oracleJava(){
 }
 
 basicDevelop(){
+
+	updateSystem
 
     echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
     apt-get install ubuntu-restricted-extras build-essential vlc ssh curl dkms p7zip rar unrar wget xsane tree ttf-mscorefonts-installer guvcview gparted qbittorrent git nodejs python3.6-dev umbrello keepassx -y
@@ -99,55 +102,24 @@ LAMP(){
     debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password $MYSQL_PASSWD"
     debconf-set-selections <<< "phpmyadmin phpmyadmin/reconfigure-webserver multiselect none"
 
-    apt-get install apache2 mysql-server mysql-workbench phpmyadmin php libapache2-mod-php php-mysql php-gd php-gettext php-zip php-mbstring phpunit php-gettext composer -y
+    apt-get install apache2 mysql-server mysql-workbench php libapache2-mod-php php-mysql php-gd php-gettext php-zip php-mbstring phpunit php-gettext composer npm -y
 
     echo "Servername $HOST" >> /etc/apache2/apache2.conf
 
-    service apache2 restart
-
     a2enmod rewrite
-
     a2enmod headers
+    
+    phpenmod mbstring
 
-    echo -e "\n--- Allow url rewrite ---\n"
     sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/apache2.conf
 
-    #rm -rf /var/www/html
-    #ln -fs ~/public /var/www/html
-
-    echo -e "\n--- We definitly need to see the PHP errors, turning them on ---\n"
-    #sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/apache2/php.ini
-    #sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/apache2/php.ini
-
-    echo -e "\n--- Install bower ---\n"
-    npm install -g gulp bower
-    service apache2 restart
+    npm install -g gulp
     
-    apt-get install expect -y
-
-    MYSQL_ROOT_PASSWORD=$MYSQL_PASSWD
-
-        SECURE_MYSQL=$(expect -c "
-        set timeout 10
-        spawn mysql_secure_installation
-        expect \"Enter current password for root (enter for none):\"
-        send \"$MYSQL\r\"
-        expect \"Change the root password?\"
-        send \"n\r\"
-        expect \"Remove anonymous users?\"
-        send \"y\r\"
-        expect \"Disallow root login remotely?\"
-        send \"y\r\"
-        expect \"Remove test database and access to it?\"
-        send \"y\r\"
-        expect \"Reload privilege tables now?\"
-        send \"y\r\"
-        expect eof
-        ")
-
-    echo "$SECURE_MYSQL"
-
-    apt-get -y purge expect
+    mysql -u root -p -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '$MYSQL_PASSWD';"
+    
+    apt install phpmyadmin -y
+    
+    service apache2 restart
 
     echo "LAMP installed."
 }
