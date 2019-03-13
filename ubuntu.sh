@@ -84,7 +84,7 @@ basicDevelop(){
 	updateSystem
 
     echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
-    apt-get install ubuntu-restricted-extras build-essential vlc ssh curl dkms p7zip rar unrar wget xsane tree ttf-mscorefonts-installer guvcview gparted qbittorrent git nodejs python3.6-dev umbrello keepassx -y
+    apt-get install ubuntu-restricted-extras build-essential vlc ssh curl dkms p7zip rar unrar wget xsane tree ttf-mscorefonts-installer guvcview gparted qbittorrent git nodejs python3.6-dev umbrello keepassx npm -y
     echo "Basic development packages installed."
 }
 
@@ -102,18 +102,15 @@ LAMP(){
     debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password $MYSQL_PASSWD"
     debconf-set-selections <<< "phpmyadmin phpmyadmin/reconfigure-webserver multiselect none"
 
-    apt-get install apache2 mysql-server mysql-workbench php libapache2-mod-php php-mysql php-gd php-gettext php-zip php-mbstring phpunit php-gettext composer npm -y
+    apt-get install apache2 mysql-server mysql-workbench php libapache2-mod-php php-mysql php-gd php-gettext php-zip php-mbstring phpunit php-gettext composer -y
 
     echo "Servername $HOST" >> /etc/apache2/apache2.conf
 
     a2enmod rewrite
     a2enmod headers
-    
     phpenmod mbstring
 
     sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/apache2.conf
-
-    npm install -g gulp
     
     mysql -u root -p -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '$MYSQL_PASSWD';"
     
