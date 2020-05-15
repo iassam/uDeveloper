@@ -2,9 +2,10 @@
 #
 #   Author: Iassam
 #
-#   Version: 1.5
-
 #------------------[Preload]---------------------
+
+APP_VERSION='1.6'
+
 #System colors
 NORMAL='\e[0m'
 BLUE='\e[34m'
@@ -68,23 +69,12 @@ updateSystem(){
     apt-get dist-upgrade -y
 }
 
-oracleJava(){
-
-    closeAllBrowsers
-    add-apt-repository ppa:webupd8team/java -y
-    apt-get update
-    echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections
-    echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 seen true" | debconf-set-selections
-    apt-get install oracle-java8-installer -y
-    echo "Oracle java installed."
-}
-
 basicDevelop(){
 
 	updateSystem
 
     echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
-    apt-get install ubuntu-restricted-extras build-essential vlc ssh curl dkms p7zip rar unrar wget xsane tree ttf-mscorefonts-installer guvcview gparted qbittorrent git nodejs python3.6-dev umbrello keepassx npm -y
+    apt-get install ubuntu-restricted-extras build-essential vlc ssh curl dkms p7zip rar unrar wget xsane tree ttf-mscorefonts-installer guvcview gparted qbittorrent git umbrello keepassx npm -y
     echo "Basic development packages installed."
 }
 
@@ -114,8 +104,6 @@ LAMP(){
     
     mysql -u root -p -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '$MYSQL_PASSWD';"
     
-    apt install phpmyadmin -y
-    
     service apache2 restart
 
     echo "LAMP installed."
@@ -127,12 +115,7 @@ LEMP(){
 
 }
 
-pythonDev(){
-
-	apt install python3.6-dev -y
-}
-
-appEditores(){
+appEditors(){
 
     apt-get install sigil gimp calibre -y
 }
@@ -163,33 +146,16 @@ laravelInstall(){
     su - $USER_SYS -c '
     composer global require "laravel/installer";
 	export PATH=${PATH}:~/.composer/vendor/bin;
-	echo "export PATH=$PATH" >> ~/.bashrc;
-    echo "Laravel installed."'
+	echo -e "export PATH=$PATH" >> ~/.bashrc;
+    echo -e "Laravel installed."'
     
-}
-
-android(){
-
-    apt-get install ant adb android-sdk -y
-    echo "Android SDK installed.";
-    sudo npm install -g cordova ionic
-
 }
 
 androidStudio(){
 
-     apt-get install lib32z1 lib32ncurses5 lib32stdc++6 -y
+    apt-get install lib32z1 lib32ncurses5 lib32stdc++6 -y
 
-     su - $USER_SYS -c '
-     wget https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz -O android-sdk.tgz;
-     tar -xvf android-sdk.tgz;
-     rm android-sdk.tgz;
-     mv android-sdk-linux ~/android;
-     export PATH=${PATH}:~/android/tools;
-     echo "export PATH=$PATH" >> ~/.bashrc;
-     echo "Android Studio installed.";
- 
-     '
+    snap install android-studio --classic
 
 }
 
@@ -264,6 +230,13 @@ atomInstall(){
     echo "Atom editor installed.";
 }
 
+vsCodePackage(){
+    wget https://go.microsoft.com/fwlink/?LinkID=760868 -O vscode.deb
+    dpkg -i vscode.deb
+    rm vscode.deb
+    echo "Visual Studio Code installed.";
+}
+
 chromeInstall(){
 
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O chrome.deb
@@ -273,12 +246,12 @@ chromeInstall(){
     echo "Google Chrome Browser installed.";
 }
 
-nodejsLatest(){
+nodejsPackage(){
 
-    curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-    apt-get install nodejs -y
-    apt-get autoremove -y
-    echo "latest nodejs version installed."
+    curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+    
+    echo "NodeJs installed."
 }
 
 allPackages(){
@@ -286,16 +259,16 @@ allPackages(){
     apt-get install composer -y
     updateSystem
     basicDevelop
-    oracleJava
-    nodejsLatest
+    nodejsPackage
     aErrors
     aGuest
     LAMP
     vimConfig
     laravelInstall
     chromeInstall
-    android
     atomInstall
+    vsCodePackage
+    androidStudio
 
     echo "All packages installed."
 
@@ -314,18 +287,18 @@ menu(){
     clear
 
     echo -e "
-    ${YELLOW}Ubuntu Developer Installer v1.5${NORMAL}
+    ${YELLOW}Ubuntu Developer Installer v${APP_VERSION} ${NORMAL}
 
-    ${GREEN}1)${NORMAL} Install Basic Programs
-    ${GREEN}2) ${NORMAL}Install Oracle java 8
+    ${GREEN}1)${NORMAL} Install Basic Dev Programs
     ${GREEN}4) ${NORMAL}Vim + custom config
     ${GREEN}5) ${NORMAL}Disable ubuntu errors
     ${GREEN}6) ${NORMAL}Disable guest user
     ${GREEN}7) ${NORMAL}Install Atom editor
     ${GREEN}8) ${NORMAL}Install Google chrome latest version
     ${GREEN}9) ${NORMAL}Install LAMP server
-    ${GREEN}11) ${NORMAL}Install NodeJS (latest)
+    ${GREEN}11) ${NORMAL}Install NodeJS
     ${GREEN}12) ${NORMAL}LEMP
+    ${GREEN}13) ${NORMAL}Install Visual Studio Code
     ${GREEN}97) ${NORMAL}Install Laravel
     ${GREEN}98) ${NORMAL}Install all packages
     ${RED}99) ${NORMAL}Exit
@@ -338,15 +311,15 @@ options(){
 
     case "$1" in
         1) basicDevelop; sleep 3;;
-        2) oracleJava; sleep 3;;
         4) setUser; vimConfig; sleep 3;;
         5) aErrors; sleep 3;;
         6) aGuest; sleep 3;;
         7) atomInstall; sleep 3;;
         8) chromeInstall; sleep 3;;
         9) setHost; setMysql; LAMP ; sleep 3;;
-        11) nodejsLatest; sleep 3;;
+        11) nodejsPackage; sleep 3;;
         12) LEMP; sleep 3;;
+        13) vsCodePackage; sleep 3;;
         97) setUser; laravelInstall; sleep 3;;
         98) setUser; setHost; setMysql; allPackages; sleep 3;;
         99) echo "Hasta la vista baby..."; exit;;
@@ -360,7 +333,6 @@ rootVerify
 
 while :
 do
-
     menu
     read -p "Option: " OPTION
     options $OPTION

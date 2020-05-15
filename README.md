@@ -1,17 +1,16 @@
-#uDeveloperInstaller v1.5
+# uDeveloperInstaller v1.6
 
-Auto install ubuntu development tools
+## Auto install ubuntu development tools
 
-- Apache+mysql+phpmyadmin
-- Android SDK+Cordova+Ionic
+- Install LAMP Server
+- Android Studio
 - Disable guest session Ubuntu
 - Disable error aport Ubuntu
 - Install Nodejs and dependences
 - Basic Media programs
 - Install Oracle Java
-- Fix NodeJS permission bug
 
-##Notes:
+## Notes:
 Please run script as ROOT!
 
 ```sh
