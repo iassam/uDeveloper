@@ -138,10 +138,13 @@ closeAllBrowsers(){
 
 androidStudio(){
 
-    apt-get install lib32z1 lib32ncurses5 lib32stdc++6 -y
-
+    apt-get install lib32z1 lib32stdc++6 -y
     snap install android-studio --classic
 
+}
+
+flutterDev(){
+    snap install flutter --classic
 }
 
 vimConfig(){
@@ -249,7 +252,6 @@ allPackages(){
     aGuest
     LAMP
     vimConfig
-    laravelInstall
     chromeInstall
     atomInstall
     vsCodePackage
@@ -257,6 +259,11 @@ allPackages(){
 
     echo "All packages installed."
 
+}
+
+mobileDev(){
+  androidStudio
+  flutterDev
 }
 
 rootVerify(){
@@ -283,6 +290,7 @@ menu(){
     ${GREEN}9) ${NORMAL}Install LAMP server
     ${GREEN}11) ${NORMAL}Install NodeJS
     ${GREEN}13) ${NORMAL}Install Visual Studio Code
+    ${GREEN}14) ${NORMAL}Install Mobile dev package
     ${GREEN}98) ${NORMAL}Install all packages
     ${RED}99) ${NORMAL}Exit
     "
@@ -302,6 +310,7 @@ options(){
         9) setHost; setMysql; LAMP ; sleep 3;;
         11) nodejsPackage; sleep 3;;
         13) vsCodePackage; sleep 3;;
+        14) mobileDev; sleep 3;;
         98) setUser; setHost; setMysql; allPackages; sleep 3;;
         99) echo "Hasta la vista baby..."; exit;;
         *) echo "Invalid option"; sleep 1;;
