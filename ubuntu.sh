@@ -4,7 +4,7 @@
 #
 #------------------[Preload]---------------------
 
-APP_VERSION='1.6'
+APP_VERSION='1.7'
 
 #System colors
 NORMAL='\e[0m'
@@ -109,11 +109,6 @@ LAMP(){
     echo "LAMP installed."
 }
 
-LEMP(){
-
-	apt install nginx mysql-server php-fpm php-mysql -y
-
-}
 
 appEditors(){
 
@@ -139,16 +134,6 @@ closeAllBrowsers(){
 
     killall firefox
     killall chrome
-}
-
-laravelInstall(){
-
-    su - $USER_SYS -c '
-    composer global require "laravel/installer";
-	export PATH=${PATH}:~/.composer/vendor/bin;
-	echo -e "export PATH=$PATH" >> ~/.bashrc;
-    echo -e "Laravel installed."'
-    
 }
 
 androidStudio(){
@@ -248,7 +233,7 @@ chromeInstall(){
 
 nodejsPackage(){
 
-    curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+    curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
     sudo apt-get install -y nodejs
     
     echo "NodeJs installed."
@@ -297,9 +282,7 @@ menu(){
     ${GREEN}8) ${NORMAL}Install Google chrome latest version
     ${GREEN}9) ${NORMAL}Install LAMP server
     ${GREEN}11) ${NORMAL}Install NodeJS
-    ${GREEN}12) ${NORMAL}LEMP
     ${GREEN}13) ${NORMAL}Install Visual Studio Code
-    ${GREEN}97) ${NORMAL}Install Laravel
     ${GREEN}98) ${NORMAL}Install all packages
     ${RED}99) ${NORMAL}Exit
     "
@@ -318,9 +301,7 @@ options(){
         8) chromeInstall; sleep 3;;
         9) setHost; setMysql; LAMP ; sleep 3;;
         11) nodejsPackage; sleep 3;;
-        12) LEMP; sleep 3;;
         13) vsCodePackage; sleep 3;;
-        97) setUser; laravelInstall; sleep 3;;
         98) setUser; setHost; setMysql; allPackages; sleep 3;;
         99) echo "Hasta la vista baby..."; exit;;
         *) echo "Invalid option"; sleep 1;;
