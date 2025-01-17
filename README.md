@@ -1,8 +1,7 @@
-# uDeveloperInstaller v1.7
+# uDeveloperInstaller v1.8
 
 ## Auto install ubuntu development tools
 
-- Install LAMP Server
 - Disable guest session Ubuntu
 - Disable error aport Ubuntu
 - Install Nodejs and dependences

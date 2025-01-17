@@ -4,7 +4,7 @@
 #
 #------------------[Preload]---------------------
 
-APP_VERSION='1.7'
+APP_VERSION='1.8'
 
 #System colors
 NORMAL='\e[0m'
@@ -33,21 +33,6 @@ setUser(){
 
 }
 
-setMysql(){
-
-    if [ "$MYSQL_PASSWD" = "" ]; then
-
-        echo "Please set your mysql passsword "
-        read -p "Mysql password (password123): " MYSQL_PASSWD
-
-        if [ "$MYSQL_PASSWD" = "" ]; then
-
-            MYSQL_PASSWD="password123"
-        fi
-
-    fi
-}
-
 setHost(){
 
     if [ "$HOST" = "" ]; then
@@ -74,41 +59,9 @@ basicDevelop(){
 	updateSystem
 
     echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
-    apt-get install ubuntu-restricted-extras build-essential vlc ssh curl dkms p7zip rar unrar wget xsane tree ttf-mscorefonts-installer guvcview gparted qbittorrent git umbrello keepassx npm -y
+    apt-get install ubuntu-restricted-extras build-essential vlc ssh curl dkms p7zip rar unrar wget xsane tree ttf-mscorefonts-installer guvcview gparted qbittorrent git umbrello keepassx npm htop net-tools virtualbox virtualbox-guest-x11 zsh fonts-powerline -y
     echo "Basic development packages installed."
 }
-
-
-LAMP(){
-
-    #Debconf mysql
-    debconf-set-selections <<< "mysql-server mysql-server/root_password password $MYSQL_PASSWD"
-    debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $MYSQL_PASSWD"
-    debconf-set-selections <<< "phpmyadmin phpmyadmin/dbconfig-install boolean true"
-
-    #Debconf phpmyadmin
-    debconf-set-selections <<< "phpmyadmin phpmyadmin/app-password-confirm password $MYSQL_PASSWD"
-    debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-pass password $MYSQL_PASSWD"
-    debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password $MYSQL_PASSWD"
-    debconf-set-selections <<< "phpmyadmin phpmyadmin/reconfigure-webserver multiselect none"
-
-    apt-get install apache2 mysql-server mysql-workbench php libapache2-mod-php php-mysql php-gd php-gettext php-zip php-mbstring phpunit php-gettext composer -y
-
-    echo "Servername $HOST" >> /etc/apache2/apache2.conf
-
-    a2enmod rewrite
-    a2enmod headers
-    phpenmod mbstring
-
-    sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/apache2.conf
-    
-    mysql -u root -p -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '$MYSQL_PASSWD';"
-    
-    service apache2 restart
-
-    echo "LAMP installed."
-}
-
 
 appEditors(){
 
@@ -138,7 +91,7 @@ closeAllBrowsers(){
 
 androidStudio(){
 
-    apt-get install lib32z1 lib32stdc++6 -y
+    apt-get install lib32z1 lib32stdc++6 adb -y
     snap install android-studio --classic
 
 }
@@ -236,6 +189,12 @@ chromeInstall(){
 
 nodejsPackage(){
 
+
+    #install nvm
+    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+
+    #install nodejs
     curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
     sudo apt-get install -y nodejs
     
@@ -250,7 +209,6 @@ allPackages(){
     nodejsPackage
     aErrors
     aGuest
-    LAMP
     vimConfig
     chromeInstall
     atomInstall
@@ -264,6 +222,10 @@ allPackages(){
 mobileDev(){
   androidStudio
   flutterDev
+}
+
+databaseManagers(){
+  wget -O https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
 }
 
 rootVerify(){
@@ -282,15 +244,15 @@ menu(){
     ${YELLOW}Ubuntu Developer Installer v${APP_VERSION} ${NORMAL}
 
     ${GREEN}1)${NORMAL} Install Basic Dev Programs
-    ${GREEN}4) ${NORMAL}Vim + custom config
-    ${GREEN}5) ${NORMAL}Disable ubuntu errors
-    ${GREEN}6) ${NORMAL}Disable guest user
-    ${GREEN}7) ${NORMAL}Install Atom editor
-    ${GREEN}8) ${NORMAL}Install Google chrome latest version
+    ${GREEN}2) ${NORMAL}Vim + custom config
+    ${GREEN}3) ${NORMAL}Disable ubuntu errors
+    ${GREEN}4) ${NORMAL}Disable guest user
+    ${GREEN}5) ${NORMAL}Install Atom editor
+    ${GREEN}6) ${NORMAL}Install Google chrome latest version
     ${GREEN}9) ${NORMAL}Install LAMP server
-    ${GREEN}11) ${NORMAL}Install NodeJS
-    ${GREEN}13) ${NORMAL}Install Visual Studio Code
-    ${GREEN}14) ${NORMAL}Install Mobile dev package
+    ${GREEN}7) ${NORMAL}Install NodeJS dev pack
+    ${GREEN}8) ${NORMAL}Install Visual Studio Code
+    ${GREEN}9) ${NORMAL}Install Mobile dev package
     ${GREEN}98) ${NORMAL}Install all packages
     ${RED}99) ${NORMAL}Exit
     "
@@ -302,15 +264,14 @@ options(){
 
     case "$1" in
         1) basicDevelop; sleep 3;;
-        4) setUser; vimConfig; sleep 3;;
-        5) aErrors; sleep 3;;
-        6) aGuest; sleep 3;;
-        7) atomInstall; sleep 3;;
-        8) chromeInstall; sleep 3;;
-        9) setHost; setMysql; LAMP ; sleep 3;;
-        11) nodejsPackage; sleep 3;;
-        13) vsCodePackage; sleep 3;;
-        14) mobileDev; sleep 3;;
+        2) setUser; vimConfig; sleep 3;;
+        3) aErrors; sleep 3;;
+        4) aGuest; sleep 3;;
+        5) atomInstall; sleep 3;;
+        6) chromeInstall; sleep 3;;
+        7) nodejsPackage; sleep 3;;
+        8) vsCodePackage; sleep 3;;
+        9) mobileDev; sleep 3;;
         98) setUser; setHost; setMysql; allPackages; sleep 3;;
         99) echo "Hasta la vista baby..."; exit;;
         *) echo "Invalid option"; sleep 1;;
